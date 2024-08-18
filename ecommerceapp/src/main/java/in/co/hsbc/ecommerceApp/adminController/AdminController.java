@@ -12,16 +12,11 @@ public class AdminController {
         this.service = service;
     }
 
-    public void insertProduct(Object o){
+    public void insertProduct(Object o,int id,String name,double price){
         if(!(o instanceof Admin)){
             System.out.println("Unauthorized Access");
             System.exit(0);
         }
-        System.out.println("Enter id name and price of the product");
-        sc=new Scanner(System.in);
-        int id=sc.nextInt();
-        String name=sc.next();
-        double price=sc.nextDouble();
         Product p=new Product(id,name,price);
         if(service.registerNewProduct(p))
             System.out.println("Product Added Successfully !");
@@ -29,17 +24,11 @@ public class AdminController {
             System.out.println("Sorry For The Inconvenience !");
     }
 
-    public void updateProduct(Object o){
+    public void updateProduct(Object o,int id,String name,double price){
         if(!(o instanceof Admin)){
             System.out.println("Unauthorized Access");
             System.exit(0);
         }
-        sc=new Scanner(System.in);
-        System.out.println("Enter product id of the product whose details you want to update");
-        int id=sc.nextInt();
-        System.out.println("Enter new product name and price");
-        String name= sc.next();
-        double price=sc.nextDouble();
         Product p=new Product(id,name,price);
         if (service.modifyProduct(p)) {
             System.out.println("Updation Successful");
@@ -48,14 +37,11 @@ public class AdminController {
         }
     }
 
-    public void deleteProduct(Object o) {
+    public void deleteProduct(Object o,int id) {
         if(!(o instanceof Admin)){
             System.out.println("Unauthorized Access");
             System.exit(0);
         }
-        sc=new Scanner(System.in);
-        System.out.println("Enter product id of the product which you want to delete");
-        int id=sc.nextInt();
         if (service.removeProduct(id)) {
             System.out.println("Deletion Successful");
         } else {
@@ -63,19 +49,12 @@ public class AdminController {
         }
     }
 
-    public void insertSubscription(Object o){
+    public void insertSubscription(Object o,int id,int validity,int option){
         if(!(o instanceof Admin)){
             System.out.println("Unauthorized Access");
             System.exit(0);
         }
-        sc=new Scanner(System.in);
-        System.out.println("Enter product id for which you want to add subscription");
-        int id=sc.nextInt();
-        System.out.println("Enter validity of subscription you want to add");
-        int validity=sc.nextInt();
         Subscriptions subscriptions;
-        System.out.println("Enter 1 for Recurring Subscriptions \n 2 for Access Subscriptions");
-        int option=sc.nextInt();
         if(option==1)
             subscriptions=new RecurringSubscription(validity);
         else
@@ -88,16 +67,11 @@ public class AdminController {
         }
     }
 
-    public void subChangeSubscriptionStatus(Object o){
+    public void subChangeSubscriptionStatus(Object o,int id,String type){
         if(!(o instanceof Admin)){
             System.out.println("Unauthorized Access");
             System.exit(0);
         }
-        sc=new Scanner(System.in);
-        System.out.println("Enter product id for which you want to deactivate subscription");
-        int id=sc.nextInt();
-        System.out.println("Enter type of subscription you want to deactivate (Recurring or Access)");
-        String type=sc.next();
         if(service.removeSubscription(type,id)){
             System.out.println("Subscription Status Changed Successfully !");
         }
@@ -106,16 +80,11 @@ public class AdminController {
         }
     }
 
-    public void addChangeSubscriptionStatus(Object o){
+    public void addChangeSubscriptionStatus(Object o,int id,String type){
         if(!(o instanceof Admin)){
             System.out.println("Unauthorized Access");
             System.exit(0);
         }
-        sc=new Scanner(System.in);
-        System.out.println("Enter product id for which you want to activate subscription");
-        int id=sc.nextInt();
-        System.out.println("Enter type of subscription you want to activate (Recurring or Access)");
-        String type=sc.next();
         if(service.addSubscription(type,id)){
             System.out.println("Subscription Status Changed Successfully !");
         }

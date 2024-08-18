@@ -3,6 +3,7 @@ package in.co.hsbc.ecommerceApp;
 import in.co.hsbc.ecommerceApp.adminController.AdminController;
 import in.co.hsbc.ecommerceApp.beanfactory.BeanFactory;
 import in.co.hsbc.ecommerceApp.entity.Admin;
+import in.co.hsbc.ecommerceApp.entity.Product;
 
 import java.util.Scanner;
 
@@ -14,6 +15,9 @@ public class ECommerceApp {
         AdminController controller = factory.getController();
         System.out.println("Enter id of the Admin");
         int id=sc.nextInt();
+        String name;
+        double price;
+        Product p;
         Admin admin=Admin.getInstance(id);
         int choice;
         do {
@@ -28,13 +32,28 @@ public class ECommerceApp {
 
             switch (choice) {
                 case 1:
-                    controller.insertProduct(admin);
+                    System.out.println("Enter id name and price of the product");
+                    sc=new Scanner(System.in);
+                    id=sc.nextInt();
+                    name=sc.next();
+                    price=sc.nextDouble();
+
+                    controller.insertProduct(admin,id,name,price);
                     break;
                 case 2:
-                    controller.updateProduct(admin);
+                    sc=new Scanner(System.in);
+                    System.out.println("Enter product id of the product whose details you want to update");
+                    id=sc.nextInt();
+                    System.out.println("Enter new product name and price");
+                    name= sc.next();
+                    price=sc.nextDouble();
+                    controller.updateProduct(admin,id,name,price);
                     break;
                 case 3:
-                    controller.deleteProduct(admin);
+                    sc=new Scanner(System.in);
+                    System.out.println("Enter product id of the product which you want to delete");
+                    id=sc.nextInt();
+                    controller.deleteProduct(admin,id);
                     break;
                 case 4:
                     subscriptionMenu(controller,admin);
@@ -51,8 +70,9 @@ public class ECommerceApp {
     }
 
     private static void subscriptionMenu(AdminController controller,Admin admin) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         int choice;
+        String type;
 
         do {
             System.out.println("=== Subscription Menu ===");
@@ -62,17 +82,34 @@ public class ECommerceApp {
             System.out.println("4. View All Subscriptions");
             System.out.println("5. Return to Main Menu");
             System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
+            choice = sc.nextInt();
 
             switch (choice) {
                 case 1:
-                    controller.insertSubscription(admin);
+                    sc=new Scanner(System.in);
+                    System.out.println("Enter product id for which you want to add subscription");
+                    int id=sc.nextInt();
+                    System.out.println("Enter validity of subscription you want to add");
+                    int validity=sc.nextInt();
+                    System.out.println("Enter 1 for Recurring Subscriptions \n 2 for Access Subscriptions");
+                    int option=sc.nextInt();
+                    controller.insertSubscription(admin,id,validity,option);
                     break;
                 case 2:
-                    controller.subChangeSubscriptionStatus(admin);
+                    sc=new Scanner(System.in);
+                    System.out.println("Enter product id for which you want to deactivate subscription");
+                    id=sc.nextInt();
+                    System.out.println("Enter type of subscription you want to deactivate (Recurring or Access)");
+                    type=sc.next();
+                    controller.subChangeSubscriptionStatus(admin,id,type);
                     break;
                 case 3:
-                    controller.addChangeSubscriptionStatus(admin);
+                    sc=new Scanner(System.in);
+                    System.out.println("Enter product id for which you want to activate subscription");
+                    id=sc.nextInt();
+                    System.out.println("Enter type of subscription you want to activate (Recurring or Access)");
+                    type=sc.next();
+                    controller.addChangeSubscriptionStatus(admin,id,type);
                     break;
                 case 4:
                     controller.viewAllSubscriptions(admin);
